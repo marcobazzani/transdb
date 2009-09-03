@@ -78,7 +78,10 @@ class TransField(models.Field):
                 result = TransDbValue(python_value[settings.LANGUAGE_CODE])
             else:
                 result = u''
-            result.raw_data = python_value
+            try:
+                result.raw_data = python_value
+            except AttributeError:
+                result = _("Non Translated String")
         else:
             result = TransDbValue(value)
             result.raw_data = {settings.LANGUAGE_CODE: value}
